@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAsk6</title>
+</head>
+<body>
+    <input type="text" id="inputField" placeholder="Type something...">
+    <p id="display"></p>
+    <script>
+    const input = document.getElementById("inputField");
+    const display = document.getElementById("display");
+    input.addEventListener("keyup", function() {
+      display.textContent = "You typed: " + input.value;
+    });
+  </script>
+</body>
+</html>
