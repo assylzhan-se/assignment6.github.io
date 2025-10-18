@@ -1,0 +1,13 @@
+let name = "Assylzhan";
+let age = 19;
+let isStudent = true;
+console.log("Name:", name);
+console.log("Age:", age);
+console.log("Is student:", isStudent);
+let x = 10, y = 5;
+console.log("Addition:", x + y);
+console.log("Subtraction:", x - y);
+console.log("Multiplication:", x * y);
+console.log("Division:", x / y);
+let greeting = "Hello, " + name + "!";
+console.log(greeting);
