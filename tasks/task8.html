@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task 8 — To-Do List with Description</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #222;
+      background: #f9f9f9;
+    }
+
+    h2 { margin-bottom: 8px; }
+
+    .controls { margin-bottom: 16px; }
+
+    input[type="text"] {
+      width: 40%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 8px;
+    }
+
+    button {
+      padding: 9px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .add-btn { background:#4CAF50; color:white; }
+    .clear-btn { background:#f44336; color:white; margin-left:8px; }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 12px;
+    }
+
+    li.task-item {
+      padding: 10px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-text {
+      cursor: pointer;
+      user-select: none;
+      font-weight: bold;
+    }
+
+    li.completed .task-text {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .description {
+      font-size: 14px;
+      color: #555;
+      margin-top: 4px;
+      padding-left: 24px;
+    }
+
+    .del-btn {
+      background:#e74c3c;
+      color:white;
+      border:none;
+      border-radius:6px;
+      padding:6px 9px;
+      cursor:pointer;
+    }
+
+    .back { display:inline-block; margin-top:18px; text-decoration:none; color:#555; }
+  </style>
+</head>
+<body>
+
+  <h2>Task 8 — To-Do List</h2>
+
+  <div class="controls">
+    <input id="taskInput" type="text" placeholder="Enter task title...">
+    <input id="descInput" type="text" placeholder="Enter description...">
+    <button id="addBtn" class="add-btn">Add Task</button>
+    <button id="clearAll" class="clear-btn">Clear All</button>
+  </div>
+
+  <ul id="taskList"></ul>
+  <a href="/index.html" class="back">← Back to main page</a>
+
+  <script>
+    let tasks = [];
+
+    const taskInput = document.getElementById('taskInput');
+    const descInput = document.getElementById('descInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+    const clearAll = document.getElementById('clearAll');
+    function renderTasks() {
+      taskList.innerHTML = '';
+      if (tasks.length === 0) {
+        const empty = document.createElement('p');
+        empty.textContent = 'No tasks added yet.';
+        empty.style.color = '#777';
+        taskList.appendChild(empty);
+        return;
+      }
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+        if (task.completed) li.classList.add('completed');
+        const header = document.createElement('div');
+        header.className = 'task-header';
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'task-text';
+        textSpan.textContent = task.text;
+        textSpan.addEventListener('click', () => toggleTask(task.id));
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'del-btn';
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', () => deleteTask(task.id));
+
+        header.appendChild(textSpan);
+        header.appendChild(delBtn);
+
+        const desc = document.createElement('div');
+        desc.className = 'description';
+        desc.innerHTML = `<strong>Description:</strong> ${task.description || '(no description)'}`;
+
+        li.appendChild(header);
+        li.appendChild(desc);
+        taskList.appendChild(li);
+      });
+    }
+    function addTask() {
+      const text = taskInput.value.trim();
+      const description = descInput.value.trim();
+      if (text === '') {
+        alert('Please enter a task title!');
+        return;
+      }
+      const newTask = {
+        id: Date.now(),
+        text,
+        description,
+        completed: false
+      };
+      tasks.push(newTask);
+      taskInput.value = '';
+      descInput.value = '';
+      renderTasks();
+    }
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      renderTasks();
+    }
+    function toggleTask(id) {
+      tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+      renderTasks();
+    }
+    function clearAllTasks() {
+      if (!confirm('Delete all tasks?')) return;
+      tasks = [];
+      renderTasks();
+    }
+    addBtn.addEventListener('click', addTask);
+    clearAll.addEventListener('click', clearAllTasks);
+    taskInput.addEventListener('keyup', e => { if (e.key === 'Enter') addTask(); });
+    descInput.addEventListener('keyup', e => { if (e.key === 'Enter') addTask(); });
+    renderTasks();
+  </script>
+</body>
+</html>
