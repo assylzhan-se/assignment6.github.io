@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4</title>
+</head>
+<body>
+    <ul id="itemList">
+    <li>Item 1</li>
+    </ul>
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="removeItem()">Remove Item</button>
+    <script>
+        function addItem() {
+      const list = document.getElementById("itemList");
+      const newItem = document.createElement("li");
+      newItem.textContent = "New Item";
+      list.appendChild(newItem);
+    }
+    function removeItem() {
+      const list = document.getElementById("itemList");
+      if (list.lastElementChild) {
+        list.removeChild(list.lastElementChild);
+      }
+    }
+    </script>
+</body>
+</html>
